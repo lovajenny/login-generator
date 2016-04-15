@@ -59,4 +59,38 @@ public class LoginGeneratorTest {
         //Then
         assertEquals(loginPaul2, "PDUR");
     }
+
+    @Test
+    public void testGenerateLoginForNomAndPrenomCourt() throws  Exception {
+
+        // Pour Paul Du
+        //Given
+        LoginService loginService = new LoginService(new String[]
+                {"JROL", "BPER", "CGUR", "JDUP", "JRAL", "JRAL1"});
+        LoginGenerator loginGenerator = new LoginGenerator(loginService);
+        String loginPaul3 = "";
+
+        //When
+        loginPaul3 = loginGenerator.generateLoginForNomAndPrenom("Du", "Paul");
+
+        //Then
+        assertEquals(loginPaul3, "PDU");
+    }
+
+    @Test
+    public void testGenerateLoginForNomAndPrenomDupli2() throws  Exception {
+
+        // Pour John Ralling
+        //Given
+        LoginService loginService = new LoginService(new String[]
+                {"JROL", "BPER", "CGUR", "JDUP", "JRAL", "JRAL1"});
+        LoginGenerator loginGenerator = new LoginGenerator(loginService);
+        String loginJohn = "";
+
+        //When
+        loginJohn = loginGenerator.generateLoginForNomAndPrenom("Ralling", "John");
+
+        //Then
+        assertEquals(loginJohn, "JRAL2");
+    }
 }

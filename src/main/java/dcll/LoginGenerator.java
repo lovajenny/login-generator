@@ -9,6 +9,11 @@ import java.util.regex.Pattern;
 public class LoginGenerator {
 
     /**
+     * Taille du nom pour le quadrigramme.
+     */
+    static final int QUADRU_NOM = 3;
+
+    /**
      * Le service de login.
      */
     private LoginService loginService;
@@ -43,11 +48,20 @@ public class LoginGenerator {
     public final String generateLoginForNomAndPrenom(final String nom,
                                                      final String prenom) {
         String p = deAccent(prenom.substring(0, 1).toUpperCase());
-        String n = deAccent(nom.substring(0, 3).toUpperCase());
-        String login = p + n;
-        if (loginService.loginExists(login)) {
-            login = login + "1";
+        String n = nom.toUpperCase();
+        if (nom.length() > QUADRU_NOM) {
+            n = deAccent(nom.substring(0, QUADRU_NOM).toUpperCase());
         }
+        String login = p + n;
+        String loginTmp = login;
+        int num = 0;
+        while (loginService.loginExists(loginTmp)) {
+            num++;
+            loginTmp = login;
+            loginTmp = loginTmp + num;
+        }
+        login = loginTmp;
+
         loginService.addLogin(login);
         return login;
     }
